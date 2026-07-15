@@ -2,7 +2,3 @@ apiVersion: v1
 kind: Namespace
 metadata:
   name: demo
-  labels:
-    env: demo
-    managed-by: kpt-fn-render
-    app: demo

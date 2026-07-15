@@ -40,7 +40,7 @@ spec:
   match:
     kinds:
       - apiGroups: [""]
-        kinds: ["Namespace"]        # ← 改成 Namespace
+        kinds: ["Namespace"]        
   parameters:
     labels:
       - app
