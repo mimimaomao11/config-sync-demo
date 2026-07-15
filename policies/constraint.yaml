@@ -40,9 +40,8 @@ spec:
   match:
     kinds:
       - apiGroups: [""]
-        kinds: ["Namespace"]        
+        kinds: ["Namespace"]
   parameters:
     labels:
       - app
       - managed-by
-      - owner                       # ← 新增一個 mutator 不會加的 label

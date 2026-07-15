@@ -3,7 +3,11 @@ kind: ConfigMap
 metadata:
   name: set-labels-config
   #annotations:
-    #config.kubernetes.io/local-config: "true"
+  #config.kubernetes.io/local-config: "true"
+
+  labels:
+    app: demo
+    managed-by: kpt-fn-render
 data:
   managed-by: kpt-fn-render
   app: demo
