@@ -2,8 +2,8 @@ apiVersion: templates.gatekeeper.sh/v1
 kind: ConstraintTemplate
 metadata:
   name: k8srequiredlabels
-  annotations:
-    config.kubernetes.io/local-config: "true"
+  #annotations:
+    #config.kubernetes.io/local-config: "true"
 spec:
   crd:
     spec:
@@ -34,8 +34,8 @@ apiVersion: constraints.gatekeeper.sh/v1beta1
 kind: K8sRequiredLabels
 metadata:
   name: must-have-required-labels
-  annotations:
-    config.kubernetes.io/local-config: "true"
+  #annotations:
+    #config.kubernetes.io/local-config: "true"
 spec:
   match:
     kinds:
@@ -45,3 +45,4 @@ spec:
     labels:
       - app
       - managed-by
+      - owner # ← 新增一個 mutator 不會加的 label 
