@@ -5,6 +5,8 @@ metadata:
   labels:
     managed-by: kpt-fn-render
     #app: demo
+
+    app: demo
 spec:
   replicas: 1
   selector:
