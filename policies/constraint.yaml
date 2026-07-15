@@ -45,4 +45,4 @@ spec:
     labels:
       - app
       - managed-by
-      - owner # ← 新增一個 mutator 不會加的 label 
+      
