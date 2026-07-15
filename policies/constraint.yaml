@@ -3,7 +3,11 @@ kind: ConstraintTemplate
 metadata:
   name: k8srequiredlabels
   #annotations:
-    #config.kubernetes.io/local-config: "true"
+  #config.kubernetes.io/local-config: "true"
+
+  labels:
+    app: demo
+    managed-by: kpt-fn-render
 spec:
   crd:
     spec:
@@ -35,7 +39,11 @@ kind: K8sRequiredLabels
 metadata:
   name: must-have-required-labels
   #annotations:
-    #config.kubernetes.io/local-config: "true"
+  #config.kubernetes.io/local-config: "true"
+
+  labels:
+    app: demo
+    managed-by: kpt-fn-render
 spec:
   match:
     kinds:
@@ -45,4 +53,3 @@ spec:
     labels:
       - app
       - managed-by
-      
