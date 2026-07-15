@@ -16,8 +16,11 @@ pipeline:
 status:
   conditions:
     - type: Rendered
-      status: "True"
-      reason: RenderSuccess
+      status: "False"
+      reason: RenderFailed
+      message: |-
+        pkg.render: pkg .:
+        	pipeline.run: already handled error
   renderStatus:
     mutationSteps:
       - image: ghcr.io/kptdev/krm-functions-catalog/set-labels:latest
@@ -29,4 +32,30 @@ status:
       - image: ghcr.io/kptdev/krm-functions-catalog/kubeconform:latest
         exitCode: 0
       - image: ghcr.io/kptdev/krm-functions-catalog/gatekeeper:latest
-        exitCode: 0
+        stderr: |-
+          [error] v1/Namespace/demo: you must provide labels: {"owner"}
+          violatedConstraint: must-have-required-labels
+        exitCode: 1
+        results:
+          - message: |-
+              you must provide labels: {"owner"}
+              violatedConstraint: must-have-required-labels
+            severity: error
+            resourceRef:
+              apiVersion: v1
+              kind: Namespace
+              name: demo
+            file:
+              path: namespaces/demo.yaml
+        errorResults:
+          - message: |-
+              you must provide labels: {"owner"}
+              violatedConstraint: must-have-required-labels
+            severity: error
+            resourceRef:
+              apiVersion: v1
+              kind: Namespace
+              name: demo
+            file:
+              path: namespaces/demo.yaml
+    errorSummary: 'ghcr.io/kptdev/krm-functions-catalog/gatekeeper:latest: exit code 1'

@@ -39,11 +39,10 @@ metadata:
 spec:
   match:
     kinds:
-      - apiGroups: ["apps"]
-        kinds: ["Deployment"]
       - apiGroups: [""]
-        kinds: ["Pod"]
+        kinds: ["Namespace"]        # ← 改成 Namespace
   parameters:
     labels:
       - app
       - managed-by
+      - owner                       # ← 新增一個 mutator 不會加的 label
