@@ -3,6 +3,10 @@ kind: Role
 metadata:
   name: pod-reader
   namespace: demo
+  labels:
+    env: demo
+    managed-by: kpt-fn-render
+    app: demo
 rules:
   - apiGroups: [""]
     resources: ["pods"]

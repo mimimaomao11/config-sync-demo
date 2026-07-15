@@ -5,16 +5,57 @@ metadata:
   annotations:
     config.kubernetes.io/local-config: "true"
 info:
-  description: sample description
+  description: mutators + local policy validators
 pipeline:
+  mutators:
+    - image: ghcr.io/kptdev/krm-functions-catalog/set-labels:latest
+      configPath: setters/set-labels.yaml
   validators:
     - image: ghcr.io/kptdev/krm-functions-catalog/kubeconform:latest
+    - image: ghcr.io/kptdev/krm-functions-catalog/gatekeeper:latest
 status:
   conditions:
     - type: Rendered
-      status: "True"
-      reason: RenderSuccess
+      status: "False"
+      reason: RenderFailed
+      message: |-
+        pkg.render: pkg .:
+        	pipeline.run: already handled error
   renderStatus:
+    mutationSteps:
+      - image: ghcr.io/kptdev/krm-functions-catalog/set-labels:latest
+        exitCode: 0
+        results:
+          - message: set 6 labels in total
+            severity: info
     validationSteps:
       - image: ghcr.io/kptdev/krm-functions-catalog/kubeconform:latest
         exitCode: 0
+      - image: ghcr.io/kptdev/krm-functions-catalog/gatekeeper:latest
+        stderr: |-
+          [error] apps/v1/Deployment/demo-app: you must provide labels: {"app"}
+          violatedConstraint: must-have-required-labels
+        exitCode: 1
+        results:
+          - message: |-
+              you must provide labels: {"app"}
+              violatedConstraint: must-have-required-labels
+            severity: error
+            resourceRef:
+              apiVersion: apps/v1
+              kind: Deployment
+              name: demo-app
+            file:
+              path: apps/deployment.yaml
+        errorResults:
+          - message: |-
+              you must provide labels: {"app"}
+              violatedConstraint: must-have-required-labels
+            severity: error
+            resourceRef:
+              apiVersion: apps/v1
+              kind: Deployment
+              name: demo-app
+            file:
+              path: apps/deployment.yaml
+    errorSummary: 'ghcr.io/kptdev/krm-functions-catalog/gatekeeper:latest: exit code 1'
