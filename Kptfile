@@ -26,7 +26,7 @@ status:
       - image: ghcr.io/kptdev/krm-functions-catalog/set-labels:latest
         exitCode: 0
         results:
-          - message: set 10 labels in total
+          - message: set 12 labels in total
             severity: info
     validationSteps:
       - image: ghcr.io/kptdev/krm-functions-catalog/kubeconform:latest
